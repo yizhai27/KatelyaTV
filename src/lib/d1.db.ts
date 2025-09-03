@@ -38,8 +38,12 @@ interface D1ExecResult {
 }
 
 // 获取全局D1数据库实例
-function getD1Database(): D1Database {
-  return (process.env as any).DB as D1Database;
+function getD1Database(): D1Database | null {
+  const db = (process.env as any).DB as D1Database;
+  if (!db && process.env.NODE_ENV !== 'development') {
+    console.warn('D1 database not available in build environment');
+  }
+  return db || null;
 }
 
 export class D1Storage implements IStorage {
@@ -48,6 +52,9 @@ export class D1Storage implements IStorage {
   private async getDatabase(): Promise<D1Database> {
     if (!this.db) {
       this.db = getD1Database();
+      if (!this.db) {
+        throw new Error('D1 database not available. Make sure DB is properly configured.');
+      }
     }
     return this.db;
   }

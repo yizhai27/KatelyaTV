@@ -20,6 +20,7 @@
     "postbuild": "echo 'Build completed - sitemap generation disabled'",
     "prepare": "husky install",
     "pages:build": "pnpm gen:runtime && pnpm gen:manifest && next build && npx @cloudflare/next-on-pages --experimental-minify",
+    "cloudflare:build": "set CLOUDFLARE_PAGES=1&& npm run gen:runtime && npm run gen:manifest && next build",
     "test:live": "node scripts/test-live-tv.js",
     "deploy:check": "node scripts/deployment-check.js"
   },

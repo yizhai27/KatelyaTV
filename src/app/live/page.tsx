@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 
 import PageLayout from '@/components/PageLayout';
 
@@ -14,7 +14,7 @@ interface LiveChannel {
   epgId?: string;
 }
 
-export default function LivePage() {
+function LivePageContent() {
   const searchParams = useSearchParams();
   const [channels, setChannels] = useState<LiveChannel[]>([]);
   const [currentChannel, setCurrentChannel] = useState<LiveChannel | null>(null);
@@ -247,5 +247,34 @@ export default function LivePage() {
         </div>
       </div>
     </PageLayout>
+  );
+}
+
+// Loading component for Suspense fallback
+function LivePageLoading() {
+  return (
+    <PageLayout>
+      <div className="container mx-auto px-4 py-8">
+        <div className="animate-pulse">
+          <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-48 mb-6"></div>
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <div className="lg:col-span-1">
+              <div className="h-96 bg-gray-200 dark:bg-gray-700 rounded"></div>
+            </div>
+            <div className="lg:col-span-3">
+              <div className="h-96 bg-gray-200 dark:bg-gray-700 rounded"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </PageLayout>
+  );
+}
+
+export default function LivePage() {
+  return (
+    <Suspense fallback={<LivePageLoading />}>
+      <LivePageContent />
+    </Suspense>
   );
 }

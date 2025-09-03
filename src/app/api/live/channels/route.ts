@@ -3,6 +3,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getStorage } from '@/lib/db';
 import { fetchAndParseM3U } from '@/lib/m3u-parser';
 
+// 强制动态渲染
+export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);

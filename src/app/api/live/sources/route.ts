@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { getStorage } from '@/lib/db';
 
+// 强制动态渲染
+export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
+
 export async function GET(_request: NextRequest) {
   try {
     const storage = getStorage();

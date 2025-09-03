@@ -5,6 +5,9 @@ import { useCallback, useEffect, useState } from 'react';
 
 import PageLayout from '@/components/PageLayout';
 
+// 强制动态渲染
+export const dynamic = 'force-dynamic';
+
 interface LiveSource {
   key: string;
   name: string;
