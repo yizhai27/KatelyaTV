@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const nextConfig = {
   // For Cloudflare Pages, use 'export' instead of 'standalone'
-  output: process.env.CLOUDFLARE_PAGES === '1' ? 'export' : 'standalone',
+  // output: process.env.CLOUDFLARE_PAGES === '1' ? 'export' : 'standalone',
   
   eslint: {
     dirs: ['src'],
@@ -10,12 +10,6 @@ const nextConfig = {
 
   reactStrictMode: false,
   swcMinify: true,
-  
-  // Disable server components for better Cloudflare Pages compatibility
-  experimental: {
-    serverActions: false,
-    serverComponentsExternalPackages: [],
-  },
 
   // Uncoment to add domain whitelist
   images: {

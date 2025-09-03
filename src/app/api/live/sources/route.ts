@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { getStorage } from '@/lib/db';
 
-// 强制动态渲染
-export const runtime = 'edge';
-export const dynamic = 'force-dynamic';
+// 针对不同部署模式的配置
+export const runtime = process.env.CLOUDFLARE_PAGES === '1' ? 'edge' : 'nodejs';
+export const dynamic = process.env.CLOUDFLARE_PAGES === '1' ? 'force-dynamic' : 'auto';
 
 export async function GET(_request: NextRequest) {
   try {

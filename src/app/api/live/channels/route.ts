@@ -3,14 +3,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getStorage } from '@/lib/db';
 import { fetchAndParseM3U } from '@/lib/m3u-parser';
 
-// 强制动态渲染
-export const runtime = 'edge';
-export const dynamic = 'force-dynamic';
+// 针对不同部署模式的配置
+export const runtime = process.env.CLOUDFLARE_PAGES === '1' ? 'edge' : 'nodejs';
 
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const sourceKey = searchParams.get('source');
+    const url = new URL(request.url);
+    const sourceKey = url.searchParams.get('source');
 
     if (!sourceKey) {
       return NextResponse.json({ error: '缺少直播源参数' }, { status: 400 });

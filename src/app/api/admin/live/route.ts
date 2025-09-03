@@ -4,9 +4,9 @@ import { getStorage } from '@/lib/db';
 import { fetchAndParseM3U, isValidM3UUrl } from '@/lib/m3u-parser';
 import { LiveConfig } from '@/lib/types';
 
-// 强制动态渲染
-export const runtime = 'edge';
-export const dynamic = 'force-dynamic';
+// 针对不同部署模式的配置
+export const runtime = process.env.CLOUDFLARE_PAGES === '1' ? 'edge' : 'nodejs';
+export const dynamic = process.env.CLOUDFLARE_PAGES === '1' ? 'force-dynamic' : 'auto';
 
 // 验证管理员权限的中间件
 async function checkAdminAuth(request: NextRequest) {
